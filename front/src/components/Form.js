@@ -30,17 +30,16 @@ const Input = styled.input`
 const Label = styled.label``;
 
 const Button = styled.button`
-padding: 10px;
-cursor: pointer;
-border-radius: 5px;
-border: none;
-background-color: #2c73d2;
-color: white;
-height: 42px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  background-color: #2c73d2;
+  color: white;
+  height: 42px;
 `;
 
-
-const Form = ({ onEdit }) => {
+const Form = ({ getUsers, onEdit, setOnEdit }) => {
   const ref = useRef();
 
   useEffect(() => {
@@ -59,25 +58,38 @@ const Form = ({ onEdit }) => {
 
     const user = ref.current;
 
-    if (
-      !user.nome.value ||
-      !user.email.value ||
-      !user.data_nasc.value
-    ) {
-      return toast.warn("Fill in all fields 📑🖍✒")
+    if (!user.nome.value || !user.email.value || !user.data_nasc.value) {
+      return toast.warn("Fill in all fields 📑🖍✒");
     }
-
-    //if ALL OK
     if (onEdit) {
       await axios
-      .put("http://localhost:8800/" + onEdit.id, {
-        nome: user.nome.value,
-        email: user.email.value,
-        data_nasc: user.data_nasc.value,
-      })
-      .then(({ data }) => toast.success(data))
-      .catch(({ data }) => toast.error(data));
+        .put("http://localhost:8800/" + onEdit.id, {
+          nome: user.nome.value,
+          email: user.email.value,
+          fone: user.fone.value,
+          data_nasc: user.data_nasc.value,
+        })
+        .then(({ data }) => toast.success(data))
+        .catch(({ data }) => toast.error(data));
     }
+    else {
+      await axios
+        .post("http://localhost:8800", {
+          nome: user.nome.value,
+          email: user.email.value,
+          fone: user.fone.value,
+          data_nasc: user.data_nasc.value,
+        })
+        .then(({ data }) => toast.success(data))
+        .catch(({ data }) => toast.error(data));
+    }
+    user.nome.value = "";
+    user.email.value = "";
+    user.fone.value = "";
+    user.data_nasc.value = "";
+
+    setOnEdit(null);
+    getUsers();
   };
 
   return (
