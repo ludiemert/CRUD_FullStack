@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import Form from "./components/Form.js";
+
 import Grid from "./components/Grid.js";
 
 const Container = styled.div`
@@ -39,7 +41,6 @@ function App() {
     getUsers();
     }, [setUsers]);
 
-
   return (
     <>
       <Container>
@@ -56,3 +57,5 @@ function App() {
 }
 
 export default App;
+
+

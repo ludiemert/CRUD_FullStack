@@ -61,6 +61,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
     if (!user.nome.value || !user.email.value || !user.data_nasc.value) {
       return toast.warn("Fill in all fields 📑🖍✒");
     }
+
     if (onEdit) {
       await axios
         .put("http://localhost:8800/" + onEdit.id, {
@@ -71,8 +72,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
         })
         .then(({ data }) => toast.success(data))
         .catch(({ data }) => toast.error(data));
-    }
-    else {
+    } else {
       await axios
         .post("http://localhost:8800", {
           nome: user.nome.value,
@@ -83,6 +83,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
         .then(({ data }) => toast.success(data))
         .catch(({ data }) => toast.error(data));
     }
+
     user.nome.value = "";
     user.email.value = "";
     user.fone.value = "";
@@ -120,3 +121,6 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
 };
 
 export default Form;
+
+
+
